@@ -1,0 +1,16 @@
+name: llama
+run-name: ${{ github.actor }} is running tests for ${{ github.workflow }}
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout x
+        uses: actions/checkout@v4
+      - uses: ./.github/actions/base
+        with:
+          require_rs: true
+      - name: Run ${{ github.workflow }} Test
+        run: make -C ${{ github.workspace }}/ clean test
+      - name: Run ${{ github.workflow }} Release
+        run: make -C ${{ github.workspace }}/ clean release

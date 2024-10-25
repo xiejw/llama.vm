@@ -1,0 +1,23 @@
+name: 'xiejw-llama-action'
+# check software versions
+#
+#     https://github.com/actions/runner-images
+description: 'Common Action'
+inputs:
+  require_rs:
+    default: false
+runs:
+  using: "composite"
+  steps:
+    # --------------------------------------------------------------------------
+    # Rust related
+    #
+    - name: Install Rust
+      if: ${{ inputs.require_rs == 'true' }}
+      uses: hecrj/setup-rust-action@v2
+      with:
+        rust-version: stable
+    - name: Display Rust version
+      if: ${{ inputs.require_rs == 'true' }}
+      shell: bash
+      run: rustc --version
