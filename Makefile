@@ -25,14 +25,11 @@ SP_LIB             = ${INSTALL_SP}/lib/libsentencepiece.a
 compile: ${SP_LIB}
 
 
-run:
-	cargo run
-
-test:
+test: ${SP_LIB}
 	cargo clippy -- -D warnings && cargo build
 
 release:
-	cargo run --release
+	make RELEASE=1 compile
 
 # ------------------------------------------------------------------------------
 # Sentencepiece
@@ -42,7 +39,9 @@ ${SP_LIB}:
 	mkdir -p ${BUILD_SP}                            && \
 	PWD=`pwd`                                       && \
 	cd ${BUILD_SP}                                  && \
-	CXX= CC= CXXFLAGS= cmake ${PWD}/${SRC_SP}       && \
+	CXX= CC= CXXFLAGS=                                 \
+	    cmake -DCMAKE_BUILD_TYPE=Release               \
+	    ${PWD}/${SRC_SP}                            && \
 	make -j                                         && \
 	cmake --install . --prefix ${PWD}/${INSTALL_SP}
 
