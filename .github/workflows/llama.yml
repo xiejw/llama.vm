@@ -9,7 +9,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: llama.vm
-      - uses: ./.github/actions/base
+      - uses: ./llama.vm/.github/actions/base
         with:
           checkout_y: true
           require_gcc: true
