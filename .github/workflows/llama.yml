@@ -7,11 +7,13 @@ jobs:
     steps:
       - name: Checkout x
         uses: actions/checkout@v4
+        with:
+          path: llama.vm
       - uses: ./.github/actions/base
         with:
           checkout_y: true
           require_gcc: true
       - name: Run ${{ github.workflow }} Test
-        run: make -C ${{ github.workspace }}/ clean test
+        run: make -C ${{ github.workspace }}/llama.vm/ clean test
       - name: Run ${{ github.workflow }} Release
-        run: make -C ${{ github.workspace }}/ clean release
+        run: make -C ${{ github.workspace }}/llama.vm/ clean release
