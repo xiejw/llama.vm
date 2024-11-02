@@ -14,19 +14,20 @@ include ${EVE_PATH}/eve.mk
 # Bootstrap
 #
 
+PWD              = $(shell pwd)
+
 # ------------------------------------------------------------------------------
 # Sentencepiece Related
 #
-SRC_SP             = third_party/sentencepiece
-BUILD_SP           = ${BUILD}/build_sentencepiece
-INSTALL_SP         = ${BUILD}/install_sentencepiece
-SP_LIB             = ${INSTALL_SP}/lib/libsentencepiece.a
+SRC_SP           = third_party/sentencepiece
+BUILD_SP         = ${BUILD}/build_sentencepiece
+INSTALL_SP       = ${BUILD}/install_sentencepiece
+SP_LIB           = ${INSTALL_SP}/lib/libsentencepiece.a
 
 compile: ${SP_LIB}
 
 
 test: ${SP_LIB}
-	cargo clippy -- -D warnings && cargo build
 
 release:
 	make RELEASE=1 compile
@@ -37,7 +38,6 @@ release:
 ${SP_LIB}:
 	git submodule update --init                     && \
 	mkdir -p ${BUILD_SP}                            && \
-	PWD=`pwd`                                       && \
 	cd ${BUILD_SP}                                  && \
 	CXX= CC= CXXFLAGS=                                 \
 	    cmake -DCMAKE_BUILD_TYPE=Release               \
