@@ -9,7 +9,6 @@ EVE_FMT_FOLDERS  = ${CMD} ${SRC} ${INC}
 EVE_PATH         = ../y/ann/eve
 include ${EVE_PATH}/eve.mk
 
-
 # ------------------------------------------------------------------------------
 # Bootstrap
 #
@@ -24,13 +23,24 @@ BUILD_SP         = ${BUILD}/build_sentencepiece
 INSTALL_SP       = ${BUILD}/install_sentencepiece
 SP_LIB           = ${INSTALL_SP}/lib/libsentencepiece.a
 
-compile: ${SP_LIB}
+CXXFLAGS        += -I${INSTALL_SP}/include
+LDFLAGS         += -L${INSTALL_SP}/lib -lsentencepiece
+
+# ------------------------------------------------------------------------------
+# Actions
+#
+.DEFAULT_GOAL    = compile
+
+compile: ${SP_LIB} ${BUILD}/main
 
 
-test: ${SP_LIB}
+test: ${SP_LIB} compile
 
 release:
 	make RELEASE=1 compile
+
+${BUILD}/main: cmd/encoder/main.cc
+	${CXX} ${CXXFLAGS} -o $@ $< ${LDFLAGS}
 
 # ------------------------------------------------------------------------------
 # Sentencepiece

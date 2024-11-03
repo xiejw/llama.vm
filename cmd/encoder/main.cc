@@ -62,8 +62,8 @@ main( int argc, char *argv[] )
     } else {
         process = [&]( absl::string_view line ) {
             CHECK_OK( sp.Encode( line, &sps ) );
-            for ( auto &sp : sps ) {
-                printf( "%s ", sp.c_str( ) );
+            for ( auto &word : sps ) {
+                printf( "%s ", word.c_str( ) );
             }
             printf( "\n" );
         };
