@@ -40,8 +40,10 @@ ${SP_LIB}:
 	mkdir -p ${BUILD_SP}                            && \
 	cd ${BUILD_SP}                                  && \
 	CXX= CC= CXXFLAGS=                                 \
-	    cmake -DCMAKE_BUILD_TYPE=Release               \
-	    ${PWD}/${SRC_SP}                            && \
+		cmake                                      \
+		-DCMAKE_BUILD_TYPE=Release                 \
+		-DSPM_ENABLE_SHARED=OFF                    \
+		${PWD}/${SRC_SP}                        && \
 	make -j                                         && \
 	cmake --install . --prefix ${PWD}/${INSTALL_SP}
 
